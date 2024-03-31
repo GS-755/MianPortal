@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MianPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="IDStatus" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccountStatus">
+          <Key>
+            <PropertyRef Name="IDStatus" />
+          </Key>
+          <Property Name="IDStatus" Type="smallint" Nullable="false" />
+          <Property Name="NameStatus" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdminUsers">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProvidedServices">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="int" Nullable="false" />
+          <Property Name="NameService" Type="nvarchar" MaxLength="120" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RegisteredServices">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="UserName" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="IDService" Type="int" Nullable="false" />
+          <Property Name="IDStatus" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceStatus">
+          <Key>
+            <PropertyRef Name="IDStatus" />
+          </Key>
+          <Property Name="IDStatus" Type="smallint" Nullable="false" />
+          <Property Name="NameStatus" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UFName" Type="nvarchar" MaxLength="35" Nullable="false" />
+          <Property Name="ULName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="UGender" Type="int" />
+          <Property Name="UDob" Type="date" Nullable="false" />
+          <Property Name="UMobileNo" Type="char" MaxLength="15" />
+          <Property Name="UEmail" Type="varchar" MaxLength="120" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Accounts__IDStat__403A8C7D">
+          <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountStatus">
+              <PropertyRef Name="IDStatus" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="IDStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__UID__3F466844">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__IDSer__45F365D3">
+          <End Role="ProvidedServices" Type="Self.ProvidedServices" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProvidedServices">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="IDService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__IDSta__46E78A0C">
+          <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStatus">
+              <PropertyRef Name="IDStatus" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="IDStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__UserN__44FF419A">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="UserName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MianPortalModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminUsers" EntityType="Self.AdminUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProvidedServices" EntityType="Self.ProvidedServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegisteredServices" EntityType="Self.RegisteredServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Accounts__IDStat__403A8C7D" Association="Self.FK__Accounts__IDStat__403A8C7D">
+            <End Role="AccountStatus" EntitySet="AccountStatus" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__UID__3F466844" Association="Self.FK__Accounts__UID__3F466844">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__IDSer__45F365D3" Association="Self.FK__Registere__IDSer__45F365D3">
+            <End Role="ProvidedServices" EntitySet="ProvidedServices" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__IDSta__46E78A0C" Association="Self.FK__Registere__IDSta__46E78A0C">
+            <End Role="ServiceStatus" EntitySet="ServiceStatus" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__UserN__44FF419A" Association="Self.FK__Registere__UserN__44FF419A">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MianPortalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="IDStatus" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="AccountStatus" Relationship="Self.FK__Accounts__IDStat__403A8C7D" FromRole="Accounts" ToRole="AccountStatus" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Accounts__UID__3F466844" FromRole="Accounts" ToRole="Users" />
+          <NavigationProperty Name="RegisteredServices" Relationship="Self.FK__Registere__UserN__44FF419A" FromRole="Accounts" ToRole="RegisteredServices" />
+        </EntityType>
+        <EntityType Name="AccountStatus">
+          <Key>
+            <PropertyRef Name="IDStatus" />
+          </Key>
+          <Property Name="IDStatus" Type="Int16" Nullable="false" />
+          <Property Name="NameStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Accounts__IDStat__403A8C7D" FromRole="AccountStatus" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="AdminUsers">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProvidedServices">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="Int32" Nullable="false" />
+          <Property Name="NameService" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RegisteredServices" Relationship="Self.FK__Registere__IDSer__45F365D3" FromRole="ProvidedServices" ToRole="RegisteredServices" />
+        </EntityType>
+        <EntityType Name="RegisteredServices">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IDService" Type="Int32" Nullable="false" />
+          <Property Name="IDStatus" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Registere__UserN__44FF419A" FromRole="RegisteredServices" ToRole="Accounts" />
+          <NavigationProperty Name="ProvidedServices" Relationship="Self.FK__Registere__IDSer__45F365D3" FromRole="RegisteredServices" ToRole="ProvidedServices" />
+          <NavigationProperty Name="ServiceStatus" Relationship="Self.FK__Registere__IDSta__46E78A0C" FromRole="RegisteredServices" ToRole="ServiceStatus" />
+        </EntityType>
+        <EntityType Name="ServiceStatus">
+          <Key>
+            <PropertyRef Name="IDStatus" />
+          </Key>
+          <Property Name="IDStatus" Type="Int16" Nullable="false" />
+          <Property Name="NameStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RegisteredServices" Relationship="Self.FK__Registere__IDSta__46E78A0C" FromRole="ServiceStatus" ToRole="RegisteredServices" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UFName" Type="String" MaxLength="35" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ULName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UGender" Type="Int32" />
+          <Property Name="UDob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UMobileNo" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="UEmail" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Accounts__UID__3F466844" FromRole="Users" ToRole="Accounts" />
+        </EntityType>
+        <Association Name="FK__Accounts__IDStat__403A8C7D">
+          <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountStatus">
+              <PropertyRef Name="IDStatus" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="IDStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__UID__3F466844">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__UserN__44FF419A">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="UserName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__IDSer__45F365D3">
+          <End Role="ProvidedServices" Type="Self.ProvidedServices" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProvidedServices">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="IDService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registere__IDSta__46E78A0C">
+          <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
+          <End Role="RegisteredServices" Type="Self.RegisteredServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStatus">
+              <PropertyRef Name="IDStatus" />
+            </Principal>
+            <Dependent Role="RegisteredServices">
+              <PropertyRef Name="IDStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MianPortalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" />
+          <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" />
+          <EntitySet Name="AdminUsers" EntityType="Self.AdminUsers" />
+          <EntitySet Name="ProvidedServices" EntityType="Self.ProvidedServices" />
+          <EntitySet Name="RegisteredServices" EntityType="Self.RegisteredServices" />
+          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK__Accounts__IDStat__403A8C7D" Association="Self.FK__Accounts__IDStat__403A8C7D">
+            <End Role="AccountStatus" EntitySet="AccountStatus" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__UID__3F466844" Association="Self.FK__Accounts__UID__3F466844">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__UserN__44FF419A" Association="Self.FK__Registere__UserN__44FF419A">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__IDSer__45F365D3" Association="Self.FK__Registere__IDSer__45F365D3">
+            <End Role="ProvidedServices" EntitySet="ProvidedServices" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registere__IDSta__46E78A0C" Association="Self.FK__Registere__IDSta__46E78A0C">
+            <End Role="ServiceStatus" EntitySet="ServiceStatus" />
+            <End Role="RegisteredServices" EntitySet="RegisteredServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MianPortalModelStoreContainer" CdmEntityContainer="MianPortalEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="MianPortalModel.Accounts">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="IDStatus" ColumnName="IDStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountStatus">
+            <EntityTypeMapping TypeName="MianPortalModel.AccountStatus">
+              <MappingFragment StoreEntitySet="AccountStatus">
+                <ScalarProperty Name="IDStatus" ColumnName="IDStatus" />
+                <ScalarProperty Name="NameStatus" ColumnName="NameStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminUsers">
+            <EntityTypeMapping TypeName="MianPortalModel.AdminUsers">
+              <MappingFragment StoreEntitySet="AdminUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProvidedServices">
+            <EntityTypeMapping TypeName="MianPortalModel.ProvidedServices">
+              <MappingFragment StoreEntitySet="ProvidedServices">
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="NameService" ColumnName="NameService" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegisteredServices">
+            <EntityTypeMapping TypeName="MianPortalModel.RegisteredServices">
+              <MappingFragment StoreEntitySet="RegisteredServices">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="IDStatus" ColumnName="IDStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceStatus">
+            <EntityTypeMapping TypeName="MianPortalModel.ServiceStatus">
+              <MappingFragment StoreEntitySet="ServiceStatus">
+                <ScalarProperty Name="IDStatus" ColumnName="IDStatus" />
+                <ScalarProperty Name="NameStatus" ColumnName="NameStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MianPortalModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="UFName" ColumnName="UFName" />
+                <ScalarProperty Name="ULName" ColumnName="ULName" />
+                <ScalarProperty Name="UGender" ColumnName="UGender" />
+                <ScalarProperty Name="UDob" ColumnName="UDob" />
+                <ScalarProperty Name="UMobileNo" ColumnName="UMobileNo" />
+                <ScalarProperty Name="UEmail" ColumnName="UEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
